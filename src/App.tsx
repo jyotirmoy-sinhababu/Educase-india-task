@@ -1,10 +1,12 @@
 import './App.css';
-import LandingPage from './page/LandingPage';
+import SignupForm from './components/Signup-form';
+// import LandingPage from './page/LandingPage';
+// import LoginPage from './page/LoginPage';
 
 function App() {
   return (
     <>
-      <LandingPage />
+      <SignupForm />
     </>
   );
 }
