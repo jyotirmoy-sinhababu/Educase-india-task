@@ -1,14 +1,31 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 function LoginForm() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const isValid = email.trim().length > 0 && password.trim().length > 0;
   const route = useNavigate();
+
+  // react-hook-form with onChange mode to keep the button enable/disable behavior responsive
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<FormValues>({
+    mode: 'onChange',
+    defaultValues: { email: '', password: '' },
+  });
+
+  const onSubmit = async (_data: FormValues) => {
+    // navigate after successful validation
+    route('/account');
+  };
 
   return (
     <div className='px-5 pt-12 pb-8'>
@@ -23,15 +40,11 @@ function LoginForm() {
         <br /> consectetur adipiscing elit,
       </p>
 
-      {/* Form */}
       <form
         className='mt-6 space-y-4'
-        onSubmit={(e) => {
-          e.preventDefault();
-          route('/account');
-        }}
+        autoComplete='off'
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {/* Email */}
         <div className='space-y-1.5'>
           <Label
             htmlFor='email'
@@ -44,14 +57,25 @@ function LoginForm() {
             type='email'
             inputMode='email'
             placeholder='Enter email address'
-            autoComplete='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            autoComplete='off'
+            autoCorrect='off'
+            autoCapitalize='none'
+            spellCheck={false}
+            aria-invalid={!!errors.email}
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email pattern
+                message: 'Enter a valid email',
+              },
+            })}
             className='h-11 rounded-lg border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-2 focus-visible:ring-violet-500'
           />
+          {errors.email ? (
+            <p className='text-sm text-red-600'>{errors.email.message}</p>
+          ) : null}
         </div>
 
-        {/* Password */}
         <div className='space-y-1.5'>
           <Label
             htmlFor='password'
@@ -63,18 +87,27 @@ function LoginForm() {
             id='password'
             type='password'
             placeholder='Enter password'
-            autoComplete='current-password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            autoComplete='new-password'
+            autoCorrect='off'
+            autoCapitalize='none'
+            spellCheck={false}
+            aria-invalid={!!errors.password}
+            {...register('password', {
+              required: 'Password is required',
+              minLength: { value: 6, message: 'Minimum 6 characters' },
+            })}
             className='h-11 rounded-lg border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-2 focus-visible:ring-violet-500'
           />
+          {errors.password ? (
+            <p className='text-sm text-red-600'>{errors.password.message}</p>
+          ) : null}
         </div>
 
         {/* Submit */}
         <Button
           type='submit'
-          disabled={!isValid}
-          aria-disabled={!isValid}
+          disabled={!isValid || isSubmitting}
+          aria-disabled={!isValid || isSubmitting}
           className={`w-full rounded-[7px] py-3 font-semibold text-[#FFFFFF] cursor-pointer ${
             isValid
               ? 'bg-violet-600 hover:bg-violet-700 text-white'
