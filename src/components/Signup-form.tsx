@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import useToast from 'react-hook-toast';
 import { cn } from '@/lib/utils';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 type SignupValues = {
   fullName: string;
@@ -15,12 +16,13 @@ type SignupValues = {
   email: string;
   password: string;
   company?: string;
-  isAgency?: 'yes' | 'no';
+  isAgency?: string;
 };
 
 function SignupForm({ className }: { className?: string }) {
   const toast = useToast();
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -34,7 +36,7 @@ function SignupForm({ className }: { className?: string }) {
       email: '',
       password: '',
       company: '',
-      isAgency: undefined,
+      isAgency: '',
     },
     mode: 'onSubmit',
   });
@@ -45,6 +47,7 @@ function SignupForm({ className }: { className?: string }) {
       title: 'Account created Successful',
       // description: 'We’ve received your details.',
     });
+    navigate('/account');
   };
 
   return (
@@ -58,6 +61,7 @@ function SignupForm({ className }: { className?: string }) {
         <Input
           id='fullName'
           placeholder='Marry Doe'
+          required
           autoComplete='name'
           aria-required='true'
           aria-invalid={!!errors.fullName}
@@ -73,6 +77,7 @@ function SignupForm({ className }: { className?: string }) {
           id='phone'
           type='tel'
           inputMode='tel'
+          required
           placeholder='123 456 7890'
           autoComplete='tel'
           aria-required='true'

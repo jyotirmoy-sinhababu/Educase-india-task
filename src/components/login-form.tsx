@@ -2,11 +2,13 @@ import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const isValid = email.trim().length > 0 && password.trim().length > 0;
+  const route = useNavigate();
 
   return (
     <div className='px-5 pt-12 pb-8'>
@@ -22,7 +24,13 @@ function LoginForm() {
       </p>
 
       {/* Form */}
-      <form className='mt-6 space-y-4' onSubmit={(e) => e.preventDefault()}>
+      <form
+        className='mt-6 space-y-4'
+        onSubmit={(e) => {
+          e.preventDefault();
+          route('/account');
+        }}
+      >
         {/* Email */}
         <div className='space-y-1.5'>
           <Label
@@ -67,7 +75,7 @@ function LoginForm() {
           type='submit'
           disabled={!isValid}
           aria-disabled={!isValid}
-          className={`w-full rounded-[7px] py-3 font-semibold text-[#FFFFFF] ${
+          className={`w-full rounded-[7px] py-3 font-semibold text-[#FFFFFF] cursor-pointer ${
             isValid
               ? 'bg-violet-600 hover:bg-violet-700 text-white'
               : 'bg-zinc-300 text-white cursor-not-allowed hover:bg-zinc-300'

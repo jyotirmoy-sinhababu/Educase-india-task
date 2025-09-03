@@ -6,14 +6,13 @@ type Props = {
   name?: string;
   email?: string;
   bio?: string;
-  profile?: string;
+  avatarSrc?: string;
   className?: string;
 };
 const AccountSettingPage = ({
   name = 'Marry Doe',
   email = 'Marry@Gmail.Com',
   bio = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam.',
-  profile,
   className,
 }: Props) => {
   return (
