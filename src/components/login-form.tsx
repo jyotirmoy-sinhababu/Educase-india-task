@@ -11,13 +11,14 @@ function LoginForm() {
   return (
     <div className='px-5 pt-12 pb-8'>
       {/* Heading */}
-      <h1 className='text-3xl font-semibold text-zinc-900 text-pretty'>
+      <h1 className='text-3xl font-semibold text-zinc-900 text-pretty text-left'>
         {'Signin to your'}
         <br />
         {'PopX account'}
       </h1>
-      <p className='mt-3 text-zinc-500 leading-relaxed'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+      <p className='mt-3 text-zinc-500 leading-relaxed text-left'>
+        Lorem ipsum dolor sit amet,
+        <br /> consectetur adipiscing elit,
       </p>
 
       {/* Form */}
@@ -66,7 +67,7 @@ function LoginForm() {
           type='submit'
           disabled={!isValid}
           aria-disabled={!isValid}
-          className={`w-full rounded-lg py-3 font-semibold ${
+          className={`w-full rounded-[7px] py-3 font-semibold text-[#FFFFFF] ${
             isValid
               ? 'bg-violet-600 hover:bg-violet-700 text-white'
               : 'bg-zinc-300 text-white cursor-not-allowed hover:bg-zinc-300'

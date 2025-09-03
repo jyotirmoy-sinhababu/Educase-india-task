@@ -50,7 +50,8 @@ function SignupForm({ className }: { className?: string }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={cn('space-y-4', className)}
+      className={cn('space-y-4', 'm-8', className)}
+      style={{ margin: '6px' }}
       noValidate
     >
       <FormField label='Full Name' required error={errors.fullName?.message}>
@@ -231,4 +232,3 @@ function FormField({
 }
 
 export default SignupForm;
-export { SignupForm };
